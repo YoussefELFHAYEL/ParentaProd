@@ -7,7 +7,7 @@ import type { DBProduct, DBBundle } from "@/lib/db";
 
 export default function DashboardPage() {
   const [products, setProducts] = useState<DBProduct[]>([]);
-  const [bundle,   setBundle]   = useState<DBBundle | null>(null);
+  const [bundles,  setBundles]  = useState<DBBundle[]>([]);
   const [loading,  setLoading]  = useState(true);
 
   async function load() {
@@ -17,7 +17,7 @@ export default function DashboardPage() {
       fetch("/api/bundles").then((r) => r.json()),
     ]);
     setProducts(pr);
-    setBundle(br);
+    setBundles(Array.isArray(br) ? br : []);
     setLoading(false);
   }
 
@@ -59,7 +59,7 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
               {[
                 { label: "Total Products", value: products.length, Icon: Package, color: "#1B4332" },
-                { label: "Featured Bundle", value: bundle ? "1 active" : "None", Icon: Gift, color: "#2D6A4F" },
+                { label: "Active Bundles", value: bundles.length, Icon: Gift, color: "#2D6A4F" },
                 { label: "With Custom Link", value: products.filter(p => p.link && p.link !== "#").length, Icon: ExternalLink, color: "#52B788" },
               ].map(({ label, value, Icon, color }) => (
                 <div key={label} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">

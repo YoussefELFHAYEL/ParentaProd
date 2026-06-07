@@ -7,7 +7,7 @@
       "description": "A gentle bedtime routine chart to help children wind down with less stress and more peace.",
       "price": "$7",
       "link": "#",
-      "image": "",
+      "image": "https://picsum.photos/seed/pp-bedtime/600/400",
       "gradientFrom": "#1B4332",
       "gradientTo": "#2D6A4F",
       "iconBg": "#1B4332"
@@ -19,7 +19,7 @@
       "description": "A simple guide for handling tantrums with calm, confidence, and genuine connection.",
       "price": "$12",
       "link": "#",
-      "image": "",
+      "image": "https://picsum.photos/seed/pp-toddler/600/400",
       "gradientFrom": "#2D6A4F",
       "gradientTo": "#52B788",
       "iconBg": "#2D6A4F"
@@ -31,7 +31,7 @@
       "description": "A daily reference checklist to keep gentle discipline strategies top of mind.",
       "price": "$5",
       "link": "#",
-      "image": "",
+      "image": "https://picsum.photos/seed/pp-discipline/600/400",
       "gradientFrom": "#74C69D",
       "gradientTo": "#D8F3DC",
       "iconBg": "#52B788"
@@ -43,7 +43,7 @@
       "description": "A beautiful weekly meal planning template that makes family meals feel effortless.",
       "price": "$9",
       "link": "#",
-      "image": "",
+      "image": "https://picsum.photos/seed/pp-meals/600/400",
       "gradientFrom": "#C6A96B",
       "gradientTo": "#EDE0C4",
       "iconBg": "#A67C52"
@@ -55,7 +55,7 @@
       "description": "Help kids get ready independently each morning with a clear, visual routine chart.",
       "price": "$7",
       "link": "#",
-      "image": "",
+      "image": "https://picsum.photos/seed/pp-morning/600/400",
       "gradientFrom": "#0F2B1F",
       "gradientTo": "#1B4332",
       "iconBg": "#0F2B1F"
@@ -67,7 +67,7 @@
       "description": "Clear, printable screen time boundaries your whole family can understand and agree on.",
       "price": "$6",
       "link": "#",
-      "image": "",
+      "image": "https://picsum.photos/seed/pp-screens/600/400",
       "gradientFrom": "#40916C",
       "gradientTo": "#52B788",
       "iconBg": "#40916C"
@@ -79,7 +79,7 @@
       "description": "Beautiful printable flashcards to help children identify, name, and manage their emotions.",
       "price": "$11",
       "link": "#",
-      "image": "",
+      "image": "https://picsum.photos/seed/pp-emotions/600/400",
       "gradientFrom": "#52B788",
       "gradientTo": "#95D5B2",
       "iconBg": "#52B788"
@@ -91,29 +91,48 @@
       "description": "Daily affirmation cards to remind every parent of their strength, patience, and love.",
       "price": "$8",
       "link": "#",
-      "image": "",
+      "image": "https://picsum.photos/seed/pp-affirmation/600/400",
       "gradientFrom": "#8B6914",
       "gradientTo": "#C6A96B",
       "iconBg": "#8B6914"
     }
   ],
-  "bundle": {
-    "title": "The Calm Home Parenting Bundle",
-    "description": "A complete digital toolkit with routines, checklists, behavior charts, and gentle parenting guides for everyday family life.",
-    "price": "$35",
-    "originalPrice": "$65",
-    "savings": "Save $30",
-    "link": "#",
-    "image": "",
-    "includes": [
-      "Calm Bedtime Routine Printable",
-      "Morning Routine Chart",
-      "Positive Discipline Checklist",
-      "Toddler Tantrum Survival Guide",
-      "Family Meal Planner",
-      "Screen Time Rules Printable",
-      "Emotional Regulation Flashcards",
-      "Parenting Affirmation Cards"
-    ]
-  }
+  "bundles": [
+    {
+      "id": "1",
+      "title": "The Calm Home Parenting Bundle",
+      "description": "A complete digital toolkit with routines, checklists, behavior charts, and gentle parenting guides for everyday family life.",
+      "price": "$35",
+      "originalPrice": "$65",
+      "savings": "Save $30",
+      "link": "#",
+      "image": "https://picsum.photos/seed/pp-bundle/800/600",
+      "includes": [
+        "Calm Bedtime Routine Printable",
+        "Morning Routine Chart",
+        "Positive Discipline Checklist",
+        "Toddler Tantrum Survival Guide",
+        "Family Meal Planner",
+        "Screen Time Rules Printable",
+        "Emotional Regulation Flashcards",
+        "Parenting Affirmation Cards"
+      ]
+    },
+    {
+      "id": "2",
+      "title": "The Toddler Starter Pack",
+      "description": "Everything parents of toddlers need — from tantrum guides to meal planners and emotional regulation tools — all in one focused bundle.",
+      "price": "$22",
+      "originalPrice": "$38",
+      "savings": "Save $16",
+      "link": "#",
+      "image": "https://picsum.photos/seed/pp-bundle2/800/600",
+      "includes": [
+        "Toddler Tantrum Survival Guide",
+        "Emotional Regulation Flashcards",
+        "Family Meal Planner",
+        "Positive Discipline Checklist"
+      ]
+    }
+  ]
 }

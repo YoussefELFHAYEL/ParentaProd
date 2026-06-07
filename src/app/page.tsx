@@ -9,6 +9,7 @@ import { PinterestSection } from "@/components/PinterestSection";
 import { BenefitsSection }  from "@/components/BenefitsSection";
 import { AboutSection }     from "@/components/AboutSection";
 import { FAQSection }       from "@/components/FAQSection";
+import { PartnersSection }  from "@/components/PartnersSection";
 import { Footer }           from "@/components/Footer";
 
 export default function Home() {
@@ -20,11 +21,12 @@ export default function Home() {
       <main>
         <Hero />
         <ProductGrid products={db.products} />
-        <FeaturedBundle bundle={db.bundle} />
+        <FeaturedBundle bundles={db.bundles} />
         <PinterestSection />
         <BenefitsSection />
         <AboutSection />
         <FAQSection />
+        <PartnersSection />
       </main>
       <Footer />
     </>

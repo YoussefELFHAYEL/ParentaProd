@@ -1,8 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Sparkles, BookOpen, CalendarDays, ClipboardList, Utensils } from "lucide-react";
+import { ParticleField } from "./ParticleField";
 
+/* ── Floating card data ─────────────────────────────── */
 const floatingCards = [
   {
     icon: CalendarDays,
@@ -17,7 +19,7 @@ const floatingCards = [
     label: "Toddler Tantrum Guide",
     sub: "PDF Guide",
     pos: "top-[14%] right-[5%] md:right-[3%]",
-    delay: 0.5,
+    delay: 0.4,
     animClass: "animate-float-1",
   },
   {
@@ -25,7 +27,7 @@ const floatingCards = [
     label: "Positive Discipline",
     sub: "Checklist",
     pos: "bottom-[20%] left-[4%] md:left-[2%]",
-    delay: 1,
+    delay: 0.8,
     animClass: "animate-float-2",
   },
   {
@@ -33,55 +35,161 @@ const floatingCards = [
     label: "Family Meal Planner",
     sub: "Planner",
     pos: "bottom-[22%] right-[4%] md:right-[2%]",
-    delay: 1.5,
+    delay: 1.2,
     animClass: "animate-float-3",
   },
 ];
 
-const stagger = {
-  visible: { transition: { staggerChildren: 0.15, delayChildren: 0.2 } },
+/* ── Animation variants ─────────────────────────────── */
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.11, delayChildren: 0.15 },
+  },
 };
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] as const } },
+/* Badge drops from above with spring */
+const badgeVariant = {
+  hidden:   { opacity: 0, y: -20, scale: 0.88 },
+  visible:  {
+    opacity: 1, y: 0, scale: 1,
+    transition: { type: "spring" as const, stiffness: 260, damping: 22, delay: 0.1 },
+  },
 };
 
+/* Word-level variant — receives custom index */
+const wordVariant = {
+  hidden:  { opacity: 0, y: 32 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.62,
+      delay: 0.25 + i * 0.065,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  }),
+};
+
+/* Body text / CTA */
+const fadeSlide = {
+  hidden:  { opacity: 0, y: 18 },
+  visible: {
+    opacity: 1, y: 0,
+    transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] as const },
+  },
+};
+
+/* ── Word split helper ──────────────────────────────── */
+function SplitWords({
+  text,
+  offset = 0,
+  className,
+}: {
+  text: string;
+  offset?: number;
+  className?: string;
+}) {
+  const words = text.split(" ");
+  return (
+    <>
+      {words.map((word, i) => (
+        <motion.span
+          key={`${word}-${i}`}
+          custom={offset + i}
+          variants={wordVariant}
+          className={`inline-block${className ? ` ${className}` : ""}`}
+        >
+          {word}
+          {i < words.length - 1 ? " " : ""}
+        </motion.span>
+      ))}
+    </>
+  );
+}
+
+/* ── Blob component — Framer Motion driven ──────────── */
+function Blob({
+  className,
+  color,
+  delay = 0,
+}: {
+  className: string;
+  color: string;
+  delay?: number;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      className={`absolute rounded-full pointer-events-none ${className}`}
+      style={{ background: `radial-gradient(circle, ${color}, transparent)` }}
+      animate={
+        reduce
+          ? {}
+          : {
+              x:     [0, 28, -18, 0],
+              y:     [0, -46, 18, 0],
+              scale: [1, 1.10, 0.93, 1],
+            }
+      }
+      transition={{
+        duration: 10,
+        delay,
+        repeat: Infinity,
+        ease: [0.45, 0.05, 0.55, 0.95],
+      }}
+    />
+  );
+}
+
+/* ── Main component ─────────────────────────────────── */
 export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden"
       style={{
         background:
           "linear-gradient(160deg, #0F2B1F 0%, #1B4332 30%, #2D6A4F 60%, #74C69D 85%, #D8F3DC 100%)",
       }}
     >
-      {/* Animated blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full opacity-30 animate-blob"
-          style={{ background: "radial-gradient(circle, #52B788, transparent)" }}
-        />
-        <div
-          className="absolute top-[40%] right-[-10%] w-[400px] h-[400px] rounded-full opacity-20 animate-blob animation-delay-2000"
-          style={{ background: "radial-gradient(circle, #74C69D, transparent)" }}
-        />
-        <div
-          className="absolute bottom-[-10%] left-[30%] w-[350px] h-[350px] rounded-full opacity-25 animate-blob animation-delay-4000"
-          style={{ background: "radial-gradient(circle, #D8F3DC, transparent)" }}
-        />
-      </div>
+      {/* Grain texture overlay */}
+      <div className="absolute inset-0 hero-grain pointer-events-none" aria-hidden="true" />
 
-      {/* Floating glass cards – hidden on small screens */}
+      {/* Animated background blobs */}
+      <Blob
+        className="top-[-10%] left-[-10%] w-[500px] h-[500px] opacity-30"
+        color="#52B788"
+        delay={0}
+      />
+      <Blob
+        className="top-[40%] right-[-10%] w-[400px] h-[400px] opacity-20"
+        color="#74C69D"
+        delay={3.5}
+      />
+      <Blob
+        className="bottom-[-10%] left-[30%] w-[350px] h-[350px] opacity-25"
+        color="#D8F3DC"
+        delay={6.5}
+      />
+
+      {/* Floating particles */}
+      <ParticleField count={20} />
+
+      {/* Floating glass cards */}
       {floatingCards.map((card) => {
         const Icon = card.icon;
         return (
           <motion.div
             key={card.label}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 + card.delay, ease: [0.23, 1, 0.32, 1] as const }}
+            initial={{ opacity: 0, scale: 0.82, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 180,
+              damping: 18,
+              delay: 0.9 + card.delay,
+            }}
             className={`absolute hidden lg:flex items-center gap-3 px-4 py-3 rounded-2xl glass-card ${card.pos} ${card.animClass}`}
           >
             <div className="p-2 rounded-xl bg-forest/10">
@@ -97,13 +205,13 @@ export function Hero() {
 
       {/* Hero content */}
       <motion.div
-        variants={stagger}
+        variants={containerVariants}
         initial="hidden"
         animate="visible"
         className="relative z-10 max-w-3xl mx-auto text-center px-6 py-32"
       >
         {/* Badge */}
-        <motion.div variants={fadeUp} className="flex justify-center mb-8">
+        <motion.div variants={badgeVariant} className="flex justify-center mb-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/40">
             <Sparkles size={14} className="text-sage-light" />
             <span className="text-xs font-semibold tracking-widest uppercase text-white/90">
@@ -112,20 +220,21 @@ export function Hero() {
           </div>
         </motion.div>
 
-        {/* Headline */}
+        {/* Headline — word-by-word reveal */}
         <motion.h1
-          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
           className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6"
         >
-          Digital Parenting Tools
+          <SplitWords text="Digital Parenting Tools" offset={0} />
           <span className="block italic text-mint-pale mt-1">
-            for Calm, Organized Families
+            <SplitWords text="for Calm, Organized Families" offset={3} />
           </span>
         </motion.h1>
 
         {/* Subheadline */}
         <motion.p
-          variants={fadeUp}
+          variants={fadeSlide}
           className="text-base sm:text-lg text-white/75 max-w-xl mx-auto mb-10 leading-relaxed"
         >
           Beautiful printable guides, planners, checklists, and parenting
@@ -134,27 +243,33 @@ export function Hero() {
 
         {/* CTAs */}
         <motion.div
-          variants={fadeUp}
+          variants={fadeSlide}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <a
+          <motion.a
             href="#products"
-            className="flex items-center justify-center gap-2 bg-white text-forest font-semibold px-8 py-3.5 rounded-2xl hover:bg-mint-pale transition-[transform,background-color,box-shadow] duration-200 shadow-xl shadow-black/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] cursor-pointer"
+            whileHover={{ scale: 1.03, y: -2 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] as const }}
+            className="flex items-center justify-center gap-2 bg-white text-forest font-semibold px-8 py-3.5 rounded-2xl shadow-xl shadow-black/20 cursor-pointer"
           >
             Browse Products
             <ArrowRight size={16} />
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="#bundles"
-            className="flex items-center justify-center gap-2 glass border border-white/50 text-white font-semibold px-8 py-3.5 rounded-2xl hover:bg-white/20 transition-[transform,background-color] duration-200 active:scale-[0.97] cursor-pointer"
+            whileHover={{ scale: 1.03, y: -2 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] as const }}
+            className="flex items-center justify-center gap-2 glass border border-white/50 text-white font-semibold px-8 py-3.5 rounded-2xl cursor-pointer"
           >
             View Bundles
-          </a>
+          </motion.a>
         </motion.div>
 
         {/* Trust line */}
         <motion.p
-          variants={fadeUp}
+          variants={fadeSlide}
           className="mt-10 text-xs text-white/50 tracking-wide"
         >
           Instant digital download · Beautiful printable designs · No fluff, just useful tools
@@ -164,9 +279,7 @@ export function Hero() {
       {/* Bottom gradient fade */}
       <div
         className="absolute bottom-0 inset-x-0 h-32 pointer-events-none"
-        style={{
-          background: "linear-gradient(to bottom, transparent, #FFFBF0)",
-        }}
+        style={{ background: "linear-gradient(to bottom, transparent, #FFFBF0)" }}
       />
     </section>
   );

@@ -17,6 +17,7 @@ export interface DBProduct {
 }
 
 export interface DBBundle {
+  id: string;
   title: string;
   description: string;
   price: string;
@@ -29,27 +30,26 @@ export interface DBBundle {
 
 export interface DB {
   products: DBProduct[];
-  bundle: DBBundle;
+  bundles: DBBundle[];
 }
 
 const DEFAULT_DB: DB = {
   products: [],
-  bundle: {
-    title: "The Calm Home Parenting Bundle",
-    description: "A complete digital toolkit for everyday family life.",
-    price: "$35",
-    originalPrice: "$65",
-    savings: "Save $30",
-    link: "#",
-    image: "",
-    includes: [],
-  },
+  bundles: [],
 };
 
 export function readDB(): DB {
   try {
     if (!fs.existsSync(DB_PATH)) return DEFAULT_DB;
-    return JSON.parse(fs.readFileSync(DB_PATH, "utf-8")) as DB;
+    const raw = JSON.parse(fs.readFileSync(DB_PATH, "utf-8")) as DB & { bundle?: DBBundle };
+    // Migrate old single-bundle format to array
+    if (raw.bundle && !raw.bundles) {
+      raw.bundles = [{ ...raw.bundle, id: raw.bundle.id ?? "1" }];
+      delete raw.bundle;
+      fs.writeFileSync(DB_PATH, JSON.stringify(raw, null, 2));
+    }
+    if (!raw.bundles) raw.bundles = [];
+    return raw as DB;
   } catch {
     return DEFAULT_DB;
   }
