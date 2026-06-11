@@ -20,20 +20,27 @@ export function AboutSection() {
     <section
       id="about"
       className="py-24 px-4 relative overflow-hidden"
-      style={{ background: "linear-gradient(160deg, #D8F3DC, #F5EDD6 60%, #FFFBF0)" }}
     >
-      {/* Background photo layer — botanical warmth */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <img
-          src="https://picsum.photos/seed/pp-about-nature/1400/800"
-          alt=""
-          className="w-full h-full object-cover opacity-[0.07]"
-        />
-      </div>
+      {/* Video background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        aria-hidden="true"
+      >
+        <source src="/about-bg.mp4" type="video/mp4" />
+      </video>
 
-      {/* Decorative circles */}
-      <div className="absolute top-[-60px] right-[-60px] w-64 h-64 rounded-full bg-mint-pale/60 blur-3xl pointer-events-none animate-pulse-glow" />
-      <div className="absolute bottom-[-40px] left-[-40px] w-48 h-48 rounded-full bg-beige/80 blur-2xl pointer-events-none animate-pulse-glow animation-delay-2000" />
+      {/* Warm overlay — keeps text readable, adds golden warmth */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(160deg, rgba(248,243,230,0.88) 0%, rgba(240,234,210,0.82) 50%, rgba(248,243,230,0.88) 100%)",
+        }}
+      />
 
       <div ref={ref} className="relative max-w-3xl mx-auto text-center">
 
