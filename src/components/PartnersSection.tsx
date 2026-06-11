@@ -184,33 +184,29 @@ export function PartnersSection() {
                 whileHover={{ y: -4, scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 className="group flex flex-col items-center gap-3 p-5 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+                onMouseEnter={(e) => {
+                  const icon = e.currentTarget.querySelector<HTMLElement>(".icon-box");
+                  if (icon) { icon.style.background = p.bg; icon.style.color = p.color; }
+                }}
+                onMouseLeave={(e) => {
+                  const icon = e.currentTarget.querySelector<HTMLElement>(".icon-box");
+                  if (icon) { icon.style.background = "rgba(27,67,50,0.06)"; icon.style.color = "rgba(27,67,50,0.35)"; }
+                }}
+                onTouchStart={(e) => {
+                  const icon = e.currentTarget.querySelector<HTMLElement>(".icon-box");
+                  if (icon) { icon.style.background = p.bg; icon.style.color = p.color; }
+                }}
+                onTouchEnd={(e) => {
+                  const icon = e.currentTarget.querySelector<HTMLElement>(".icon-box");
+                  if (icon) { icon.style.background = "rgba(27,67,50,0.06)"; icon.style.color = "rgba(27,67,50,0.35)"; }
+                }}
               >
-                {/* Icon container — grey by default, brand-colored on hover/touch */}
+                {/* Icon container */}
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300"
+                  className="icon-box w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300"
                   style={{
                     background: "rgba(27,67,50,0.06)",
                     color: "rgba(27,67,50,0.35)",
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = p.bg;
-                    el.style.color = p.color;
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = "rgba(27,67,50,0.06)";
-                    el.style.color = "rgba(27,67,50,0.35)";
-                  }}
-                  onTouchStart={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = p.bg;
-                    el.style.color = p.color;
-                  }}
-                  onTouchEnd={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = "rgba(27,67,50,0.06)";
-                    el.style.color = "rgba(27,67,50,0.35)";
                   }}
                 >
                   <Icon />
