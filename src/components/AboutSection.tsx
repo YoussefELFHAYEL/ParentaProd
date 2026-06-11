@@ -38,7 +38,7 @@ export function AboutSection() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(160deg, rgba(248,243,230,0.88) 0%, rgba(240,234,210,0.82) 50%, rgba(248,243,230,0.88) 100%)",
+            "linear-gradient(160deg, rgba(248,243,230,0.72) 0%, rgba(240,234,210,0.65) 50%, rgba(248,243,230,0.72) 100%)",
         }}
       />
 
