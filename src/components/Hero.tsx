@@ -147,34 +147,34 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(160deg, #0F2B1F 0%, #1B4332 30%, #2D6A4F 60%, #74C69D 85%, #D8F3DC 100%)",
-      }}
+      className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-forest-dark"
     >
+      {/* ── Video background ── */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        aria-hidden="true"
+      >
+        <source src="/hero-bg.mp4" type="video/mp4" />
+      </video>
+
+      {/* Dark forest overlay — keeps text readable without hiding the video */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(160deg, rgba(15,43,31,0.78) 0%, rgba(27,67,50,0.62) 45%, rgba(45,106,79,0.42) 80%, rgba(27,67,50,0.55) 100%)",
+        }}
+      />
+
       {/* Grain texture overlay */}
       <div className="absolute inset-0 hero-grain pointer-events-none" aria-hidden="true" />
 
-      {/* Animated background blobs */}
-      <Blob
-        className="top-[-10%] left-[-10%] w-[500px] h-[500px] opacity-30"
-        color="#52B788"
-        delay={0}
-      />
-      <Blob
-        className="top-[40%] right-[-10%] w-[400px] h-[400px] opacity-20"
-        color="#74C69D"
-        delay={3.5}
-      />
-      <Blob
-        className="bottom-[-10%] left-[30%] w-[350px] h-[350px] opacity-25"
-        color="#D8F3DC"
-        delay={6.5}
-      />
-
-      {/* Floating particles */}
-      <ParticleField count={20} />
+      {/* Subtle particles — reduced count since video provides movement */}
+      <ParticleField count={10} />
 
       {/* Floating glass cards */}
       {floatingCards.map((card) => {
