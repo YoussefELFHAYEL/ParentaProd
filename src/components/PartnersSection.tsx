@@ -184,14 +184,8 @@ export function PartnersSection() {
                 whileHover={{ y: -4, scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 className="group flex flex-col items-center gap-3 p-5 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
-                style={
-                  {
-                    "--platform-color": p.color,
-                    "--platform-bg": p.bg,
-                  } as React.CSSProperties
-                }
               >
-                {/* Icon container — grey by default, brand-colored on hover */}
+                {/* Icon container — grey by default, brand-colored on hover/touch */}
                 <div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300"
                   style={{
@@ -204,6 +198,16 @@ export function PartnersSection() {
                     el.style.color = p.color;
                   }}
                   onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = "rgba(27,67,50,0.06)";
+                    el.style.color = "rgba(27,67,50,0.35)";
+                  }}
+                  onTouchStart={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = p.bg;
+                    el.style.color = p.color;
+                  }}
+                  onTouchEnd={(e) => {
                     const el = e.currentTarget as HTMLElement;
                     el.style.background = "rgba(27,67,50,0.06)";
                     el.style.color = "rgba(27,67,50,0.35)";
